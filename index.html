@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evita Katrina Millere</title>
+  <meta name="description" content="AI & Automation Lead, GTM Engineer, MBA Fintech." />
+  <meta property="og:title" content="Evita Katrina Millere" />
+  <meta property="og:description" content="AI & Automation Lead · GTM Engineer · MBA Fintech" />
+  <meta property="og:url" content="" />
+  <meta property="og:image" content="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #0e0e0e; }
+
+    :root {
+      --bg:  #0e0e0e;
+      --bg2: #141414;
+      --bg3: #1b1b1b;
+      --w:   #fff;
+      --d50: rgba(255,255,255,.50);
+      --d30: rgba(255,255,255,.30);
+      --d15: rgba(255,255,255,.15);
+      --d08: rgba(255,255,255,.08);
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 300;
+      color: rgba(255,255,255,.78);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── CURSOR ────────────────────────────────────────── */
+    * { cursor: none !important; }
+    #cur-dot {
+      position: fixed; width: 7px; height: 7px;
+      background: var(--w); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      box-shadow: 0 0 10px rgba(255,255,255,.5);
+      transition: width .18s, height .18s;
+    }
+    #cur-ring {
+      position: fixed; width: 34px; height: 34px;
+      border: 1px solid rgba(255,255,255,.25); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .28s, height .28s, border-color .28s;
+    }
+    #cur-dot.hov { width: 12px; height: 12px; }
+    #cur-ring.hov { width: 52px; height: 52px; border-color: rgba(255,255,255,.45); }
+
+    /* ── PANELS ────────────────────────────────────────── */
+    .panel {
+      position: fixed; inset: 0;
+      display: none;
+      align-items: center; justify-content: center;
+    }
+    .panel.active { display: flex; }
+
+    .inner { width: 100%; max-width: 1040px; padding: 0 64px; }
+
+    /* ── DOTS ──────────────────────────────────────────── */
+    #dots {
+      position: fixed; right: 26px; top: 50%;
+      transform: translateY(-50%);
+      z-index: 80; display: flex; flex-direction: column; gap: 10px;
+    }
+    .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      transition: background .3s, transform .3s;
+    }
+    .dot.on { background: var(--w); transform: scale(1.5); }
+
+    #counter {
+      position: fixed; bottom: 24px; right: 26px;
+      font-size: 10px; letter-spacing: .14em; color: var(--d30); z-index: 80;
+    }
+    #fmark {
+      position: fixed; bottom: 24px; left: 64px;
+      font-size: 10px; letter-spacing: .1em; color: rgba(255,255,255,.12); z-index: 80;
+    }
+
+    .plabel {
+      font-size: 10px; font-weight: 500;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--d30); margin-bottom: 52px;
+    }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 0 · HERO — typographic
+    ══════════════════════════════════════════════════ */
+    #p0 {
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .h-wrap {
+      width: 100%; padding: 0 64px;
+      display: flex; flex-direction: column;
+    }
+
+    .h-roles {
+      font-size: 10.5px; font-weight: 400;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--d30); margin-bottom: 22px;
+      opacity: 0; animation: hFade .7s ease 1.5s forwards;
+    }
+
+    .h-rule {
+      width: 100%; height: 1px;
+      background: var(--d15);
+      transform: scaleX(0); transform-origin: left;
+      animation: hScale .8s cubic-bezier(.76,0,.24,1) forwards;
+    }
+    .h-rule.r1 { animation-delay: .35s; }
+    .h-rule.r2 { animation-delay: .5s; }
+
+    .h-name {
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      opacity: 0; transform: translateY(16px);
+      animation: hUp .9s cubic-bezier(.16,1,.3,1) .75s forwards;
+    }
+
+    .h-photo {
+      width: 96px; height: 96px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .h-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: 50% 20%;
+      filter: grayscale(100%) brightness(0.78);
+      display: block;
+      transform: scale(1.05);
+      transform-origin: 50% 20%;
+    }
+
+    .h-name-text { display: flex; flex-direction: column; }
+
+    .h-given {
+      font-size: clamp(32px, 4.5vw, 60px);
+      font-weight: 600;
+      color: var(--w);
+      letter-spacing: -.02em;
+      line-height: .95;
+      margin-bottom: 4px;
+    }
+
+    .h-family {
+      font-size: clamp(16px, 1.8vw, 24px);
+      font-weight: 300;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .06em;
+    }
+
+    .h-bottom {
+      display: flex; justify-content: space-between;
+      align-items: center;
+      margin-top: 22px;
+      opacity: 0; animation: hFade .7s ease 1.7s forwards;
+    }
+    .h-loc { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--d30); }
+    .h-scroll {
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--d30); display: flex; align-items: center; gap: 12px;
+      transition: color .2s;
+    }
+    .h-scroll:hover { color: var(--w); }
+    .h-scroll::after { content:''; display:block; width:36px; height:1px; background:currentColor; }
+
+    @keyframes hFade { from{opacity:0} to{opacity:1} }
+    @keyframes hUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes hScale { to{transform:scaleX(1)} }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 1 · ABOUT
+    ══════════════════════════════════════════════════ */
+    #p1 .about-body {
+      font-size: clamp(18px, 1.9vw, 25px);
+      font-weight: 300; line-height: 1.72;
+      color: rgba(255,255,255,.62); max-width: 760px; margin-bottom: 60px;
+    }
+    .edu-row {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 14px 72px; max-width: 760px;
+      border-top: 1px solid var(--d08); padding-top: 32px;
+    }
+    .edu-date { font-size: 10px; letter-spacing:.16em; text-transform:uppercase; color:var(--d30); margin-bottom:2px; }
+    .edu-name { font-size: 14px; font-weight:400; color:rgba(255,255,255,.62); }
+    .edu-sub  { font-size: 12px; color:var(--d30); }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 2 · EXPERIENCE — horizontal timeline
+    ══════════════════════════════════════════════════ */
+    #p2 { overflow: hidden; }
+    #p2 .inner { width: 100%; max-width: none; padding: 0 64px; }
+
+    .htl-wrap {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .htl-wrap::-webkit-scrollbar { display: none; }
+
+    .htl {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      min-width: 700px;
+      position: relative;
+      padding-top: 28px; /* room for year labels */
+    }
+
+    /* horizontal line at dot level */
+    .htl::before {
+      content: '';
+      position: absolute;
+      top: calc(28px + 18px); /* year labels + dot center */
+      left: calc(100% / 12);
+      right: calc(100% / 12);
+      height: 1px;
+      background: var(--d08);
+    }
+
+    .htl-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 10px;
+      position: relative;
+    }
+
+    .htl-year {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--d20); height: 18px;
+      display: flex; align-items: flex-end;
+      margin-bottom: 8px;
+    }
+
+    .htl-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      border: 1px solid var(--d15);
+      background: var(--bg);
+      flex-shrink: 0;
+      margin-bottom: 24px;
+      transition: background .2s, border-color .25s, box-shadow .25s;
+    }
+    .htl-item:hover .htl-dot {
+      background: var(--w);
+      border-color: var(--w);
+      box-shadow: 0 0 10px rgba(255,255,255,.35);
+    }
+
+    .htl-company {
+      font-size: 9px; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--d30); margin-bottom: 7px;
+      transition: color .2s;
+    }
+    .htl-item:hover .htl-company { color: var(--d50); }
+
+    .htl-role {
+      font-size: 15px; font-weight: 400;
+      color: var(--w); line-height: 1.2; margin-bottom: 6px;
+    }
+
+    .htl-date {
+      font-size: 10px; color: var(--d30);
+    }
+
+    .htl-hint {
+      font-size: 9px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--d15);
+      margin-top: 10px; transition: color .2s;
+    }
+    .htl-item:hover .htl-hint { color: var(--d50); }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 3 · PROJECTS
+    ══════════════════════════════════════════════════ */
+    #p3 .proj-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 2px; max-width: 1040px;
+    }
+    .proj-card {
+      background: var(--bg2); padding: 24px 22px;
+      border: 1px solid var(--d08);
+      display: flex; flex-direction: column; gap: 10px; min-height: 160px;
+      transition: border-color .25s, background .25s;
+    }
+    .proj-card:hover { border-color: var(--d15); background: var(--bg3); }
+    .proj-type { font-size: 9px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--d30); }
+    .proj-title { font-size: 18px; font-weight:500; color:var(--w); line-height:1.2; flex:1; }
+    .proj-tagrow { display:flex; flex-wrap:wrap; gap:6px; }
+    .proj-tag { font-size:10.5px; color:var(--d30); border:1px solid var(--d08); padding:3px 9px; }
+    .proj-hint { font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--d15); transition:color .2s; }
+    .proj-card:hover .proj-hint { color:var(--d50); }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 4 · SKILLS
+    ══════════════════════════════════════════════════ */
+    #p4 .sg-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 30px 80px; max-width: 900px;
+    }
+    .sg-label { font-size:9.5px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--d30); margin-bottom:11px; }
+    .sg-tags  { display:flex; flex-wrap:wrap; gap:6px; }
+    .sg-tag   { font-size:12px; color:rgba(255,255,255,.45); border:1px solid var(--d08); padding:5px 12px; transition:border-color .2s, color .2s; }
+    .sg-tag:hover { border-color:var(--d30); color:rgba(255,255,255,.85); }
+
+    /* ══════════════════════════════════════════════════
+       PANEL 5 · CONNECT
+    ══════════════════════════════════════════════════ */
+    #p5 .con-wrap { max-width: 640px; }
+    .con-pre  { font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--d30); margin-bottom:22px; }
+    .con-h    { font-size:clamp(38px,5vw,62px); font-weight:500; color:var(--w); line-height:1.06; letter-spacing:-.025em; margin-bottom:24px; }
+    .con-note { font-size:15.5px; font-weight:300; color:var(--d50); line-height:1.7; margin-bottom:48px; max-width:480px; }
+    .con-btns { display:flex; gap:11px; flex-wrap:wrap; }
+    .cbtn {
+      display:inline-block; font-size:10.5px; font-weight:500;
+      letter-spacing:.14em; text-transform:uppercase;
+      color:var(--d50); text-decoration:none;
+      border:1px solid var(--d15); padding:13px 28px;
+      transition:color .2s, border-color .2s, background .2s;
+    }
+    .cbtn:hover { color:var(--bg); border-color:var(--w); background:var(--w); }
+
+    /* ══════════════════════════════════════════════════
+       OVERLAY
+    ══════════════════════════════════════════════════ */
+    .overlay {
+      position: fixed; inset: 0;
+      background: #0e0e0e;
+      z-index: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 48px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .overlay.open { opacity:1; pointer-events:all; }
+
+    .ov-inner { width:100%; max-width:680px; position:relative; }
+
+    .ov-x {
+      position:absolute; top:-36px; right:0;
+      font-size:18px; color:var(--d30); background:none; border:none; line-height:1; padding:4px;
+      transition:color .2s;
+    }
+    .ov-x:hover { color:var(--w); }
+
+    .ov-header {
+      display: flex; justify-content:space-between; align-items:flex-end;
+      margin-bottom: 16px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--d08);
+    }
+    .ov-company { font-size:9.5px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--d30); margin-bottom:6px; }
+    .ov-role    { font-size:clamp(22px,3vw,34px); font-weight:500; color:var(--w); line-height:1; }
+    .ov-date    { font-size:11px; color:var(--d30); text-align:right; white-space:nowrap; padding-left:24px; }
+
+    .ov-desc {
+      font-size:14.5px; font-weight:300; line-height:1.75;
+      color:rgba(255,255,255,.5); margin-bottom:20px;
+    }
+
+    .ov-hl-list {
+      list-style: none; margin-bottom:24px;
+    }
+    .ov-hl-list li {
+      font-size:13.5px; color:rgba(255,255,255,.55);
+      line-height:1.65; padding:7px 0;
+      border-bottom:1px solid var(--d08);
+      padding-left:16px; position:relative;
+    }
+    .ov-hl-list li::before {
+      content:''; position:absolute; left:0; top:17px;
+      width:5px; height:1px; background:var(--d30);
+    }
+    .ov-hl-list li:last-child { border-bottom:none; }
+
+    .ov-tl     { font-size:9px; font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:var(--d30); margin-bottom:10px; }
+    .ov-tags   { display:flex; flex-wrap:wrap; gap:7px; }
+    .ov-tag    { font-size:12px; color:rgba(255,255,255,.52); border:1px solid var(--d15); padding:5px 13px; }
+
+    /* ── RESPONSIVE ────────────────────────────────────── */
+    /* ── TABLET ──────────────────────────────────────── */
+    @media (max-width: 768px) {
+      /* hide desktop cursor */
+      #cur-dot, #cur-ring { display: none; }
+
+      .inner, .h-wrap { padding: 0 24px; }
+      #p2 .inner { padding: 0 24px; }
+      #fmark { left: 24px; }
+      #dots { right: 14px; }
+      #counter { right: 18px; }
+
+      /* hero */
+      .h-roles { font-size: 9px; letter-spacing: .14em; }
+      .h-name { gap: 16px; padding: 20px 0; }
+      .h-photo { width: 76px; height: 76px; }
+      .h-given { font-size: 28px; }
+      .h-family { font-size: 14px; }
+
+      /* experience timeline — keep horizontal but allow scroll */
+      .htl-role { font-size: 12px; }
+      .htl-date { font-size: 9px; }
+      .htl-company { font-size: 8px; }
+      .htl-hint { display: none; }
+
+      /* projects */
+      #p3 .proj-grid { grid-template-columns: 1fr 1fr; }
+      .proj-card { padding: 20px 16px; min-height: 140px; }
+      .proj-title { font-size: 15px; }
+
+      /* skills */
+      #p4 .sg-grid { grid-template-columns: 1fr; gap: 22px; }
+
+      /* education */
+      .edu-row { grid-template-columns: 1fr; gap: 14px; }
+
+      /* about text */
+      #p1 .about-body { font-size: 17px; margin-bottom: 40px; }
+
+      /* overlay */
+      .overlay { padding: 36px 24px; }
+      .ov-role { font-size: 24px; }
+
+      /* connect */
+      .con-h { font-size: 36px; }
+    }
+
+    /* ── MOBILE ──────────────────────────────────────── */
+    @media (max-width: 480px) {
+      /* hero: stack photo above name on very small screens */
+      .h-name { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 0; }
+      .h-photo { width: 68px; height: 68px; }
+      .h-given { font-size: 24px; }
+      .h-rules-area { display: none; } /* hide rules if too tight */
+
+      /* projects: single column */
+      #p3 .proj-grid { grid-template-columns: 1fr; }
+
+      /* connect */
+      .con-btns { flex-direction: column; }
+      .cbtn { text-align: center; }
+      .con-h { font-size: 30px; }
+
+      /* overlay */
+      .overlay { padding: 28px 20px; align-items: flex-start; padding-top: 60px; }
+      .ov-inner { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 0 · HERO
+══════════════════════════════════════════════════ -->
+<div class="panel active" id="p0">
+  <div class="h-wrap">
+    <div class="h-roles">AI &amp; Automation Lead &nbsp;·&nbsp; GTM Engineer &nbsp;·&nbsp; MBA Fintech</div>
+    <div class="h-rule r1"></div>
+    <div class="h-name">
+      <div class="h-photo"><img src="photo.jpg" alt="Evita Katrina Millere" /></div>
+      <div class="h-name-text">
+        <div class="h-given">Evita Katrina</div>
+        <div class="h-family">Millere</div>
+      </div>
+    </div>
+    <div class="h-rule r2"></div>
+    <div class="h-bottom">
+      <span class="h-loc">Riga, Latvia</span>
+      <span class="h-scroll" onclick="goTo(1)">scroll</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 1 · ABOUT
+══════════════════════════════════════════════════ -->
+<div class="panel" id="p1">
+  <div class="inner">
+    <p class="plabel">about</p>
+    <p class="about-body">For the last 2 years all I've done is learn and build with AI. Products for clients, internal operational processes, GTM, automating pipelines and lead gen, and passion projects on the side. I work fast and I'm agile, building and learning.</p>
+    <div class="edu-row">
+      <div>
+        <div class="edu-date">2025 – present</div>
+        <div class="edu-name">Riga Business School</div>
+        <div class="edu-sub">Professional MBA, Fintech</div>
+      </div>
+      <div>
+        <div class="edu-date">2022 – 2025</div>
+        <div class="edu-name">Riga Stradiņš University</div>
+        <div class="edu-sub">BA Business, Economics &amp; Management</div>
+      </div>
+      <div>
+        <div class="edu-date">Feb – Jul 2024</div>
+        <div class="edu-name">Fontys Business School</div>
+        <div class="edu-sub">Erasmus+ · Venlo, Netherlands</div>
+      </div>
+      <div>
+        <div class="edu-date">2024 – 2025</div>
+        <div class="edu-name">Startschool</div>
+        <div class="edu-sub">Entrepreneurship</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 2 · EXPERIENCE — horizontal timeline
+══════════════════════════════════════════════════ -->
+<div class="panel" id="p2">
+  <div class="inner" style="display:flex;flex-direction:column;">
+    <p class="plabel" style="padding:0">experience</p>
+    <div class="htl-wrap">
+      <div class="htl">
+
+        <div class="htl-item" onclick="openOv('tapilio')">
+          <div class="htl-year">2025</div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">Tapilio</div>
+          <div class="htl-role">Co-founder</div>
+          <div class="htl-date">Feb – Jun 2025</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+        <div class="htl-item" onclick="openOv('airformatic')">
+          <div class="htl-year"></div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">Airformatic</div>
+          <div class="htl-role">Co-founder</div>
+          <div class="htl-date">Feb – Jul 2025</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+        <div class="htl-item" onclick="openOv('jurmala')">
+          <div class="htl-year"></div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">Jūrmala City</div>
+          <div class="htl-role">Project Manager</div>
+          <div class="htl-date">2025 – Feb 2026</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+        <div class="htl-item" onclick="openOv('badideas')">
+          <div class="htl-year"></div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">BADideas.fund</div>
+          <div class="htl-role">Community &amp; Marketing</div>
+          <div class="htl-date">Sep 2025 – Feb 2026</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+        <div class="htl-item" onclick="openOv('animas')">
+          <div class="htl-year">2026</div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">Animas</div>
+          <div class="htl-role">AI Product Owner</div>
+          <div class="htl-date">Mar 2026 – present</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+        <div class="htl-item" onclick="openOv('monetizr')">
+          <div class="htl-year"></div>
+          <div class="htl-dot"></div>
+          <div class="htl-company">Monetizr</div>
+          <div class="htl-role">GTM Engineer</div>
+          <div class="htl-date">Mar 2026 – present</div>
+          <div class="htl-hint">open →</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 3 · PROJECTS
+══════════════════════════════════════════════════ -->
+<div class="panel" id="p3">
+  <div class="inner">
+    <p class="plabel">projects</p>
+    <div class="proj-grid">
+      <div class="proj-card" onclick="openOv('workshop')">
+        <div class="proj-type">Workshop</div>
+        <div class="proj-title">AI as a System: Plan, Automate &amp; Ship Faster</div>
+        <div class="proj-tagrow">
+          <span class="proj-tag">Claude</span><span class="proj-tag">Canva</span><span class="proj-tag">Notion</span>
+        </div>
+        <div class="proj-hint">open →</div>
+      </div>
+      <div class="proj-card" onclick="openOv('reddit')">
+        <div class="proj-type">Lead signal automation</div>
+        <div class="proj-title">Reddit Signal + Slack Pipeline</div>
+        <div class="proj-tagrow">
+          <span class="proj-tag">f5bot</span><span class="proj-tag">Claude</span><span class="proj-tag">Slack</span>
+        </div>
+        <div class="proj-hint">open →</div>
+      </div>
+      <div class="proj-card" onclick="openOv('sump')">
+        <div class="proj-type">Multi-agent AI</div>
+        <div class="proj-title">Jūrmala SUMP — 16-Agent System</div>
+        <div class="proj-tagrow">
+          <span class="proj-tag">Claude</span><span class="proj-tag">DOCX gen</span><span class="proj-tag">Power BI</span>
+        </div>
+        <div class="proj-hint">open →</div>
+      </div>
+
+      <div class="proj-card" onclick="openOv('attio')">
+        <div class="proj-type">CRM Automation</div>
+        <div class="proj-title">Attio CRM Updates via Slack Audio</div>
+        <div class="proj-tagrow">
+          <span class="proj-tag">n8n</span><span class="proj-tag">Slack</span><span class="proj-tag">Attio</span>
+        </div>
+        <div class="proj-hint">open →</div>
+      </div>
+
+      <div class="proj-card" onclick="openOv('signals')">
+        <div class="proj-type">GTM Automation</div>
+        <div class="proj-title">Signal-to-Outreach Pipeline</div>
+        <div class="proj-tagrow">
+          <span class="proj-tag">n8n</span><span class="proj-tag">Trigify</span><span class="proj-tag">Apollo</span>
+        </div>
+        <div class="proj-hint">open →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 4 · SKILLS
+══════════════════════════════════════════════════ -->
+<div class="panel" id="p4">
+  <div class="inner">
+    <p class="plabel">skills &amp; tools</p>
+    <div class="sg-grid">
+      <div>
+        <div class="sg-label">AI &amp; Automation</div>
+        <div class="sg-tags">
+          <span class="sg-tag">Claude</span><span class="sg-tag">ChatGPT</span><span class="sg-tag">n8n</span>
+          <span class="sg-tag">MCP pipelines</span><span class="sg-tag">multi-agent systems</span>
+          <span class="sg-tag">prompt engineering</span><span class="sg-tag">Cursor</span><span class="sg-tag">Lovable</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label">GTM &amp; Growth</div>
+        <div class="sg-tags">
+          <span class="sg-tag">lead generation</span><span class="sg-tag">cold outreach</span>
+          <span class="sg-tag">Lemlist</span><span class="sg-tag">Attio</span><span class="sg-tag">Apollo</span>
+          <span class="sg-tag">LinkedIn automation</span><span class="sg-tag">A/B sequences</span><span class="sg-tag">FullStory</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label">Product &amp; Strategy</div>
+        <div class="sg-tags">
+          <span class="sg-tag">AI product ownership</span><span class="sg-tag">user research</span>
+          <span class="sg-tag">go-to-market</span><span class="sg-tag">stakeholder management</span>
+          <span class="sg-tag">client workshops</span><span class="sg-tag">workflow design</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label">Data &amp; Reporting</div>
+        <div class="sg-tags">
+          <span class="sg-tag">Power BI</span><span class="sg-tag">analytics ecosystems</span>
+          <span class="sg-tag">DWH concepts</span><span class="sg-tag">data organisation</span>
+          <span class="sg-tag">Airtable</span><span class="sg-tag">Notion</span><span class="sg-tag">Supabase</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label">Build &amp; Deploy</div>
+        <div class="sg-tags">
+          <span class="sg-tag">Next.js</span><span class="sg-tag">Vercel</span>
+          <span class="sg-tag">GitHub</span><span class="sg-tag">Figma</span><span class="sg-tag">Canva</span>
+        </div>
+      </div>
+      <div>
+        <div class="sg-label">Languages</div>
+        <div class="sg-tags">
+          <span class="sg-tag">Latvian — native</span><span class="sg-tag">English — C1</span>
+          <span class="sg-tag">German — A1</span><span class="sg-tag">Russian — A1</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANEL 5 · CONNECT
+══════════════════════════════════════════════════ -->
+<div class="panel" id="p5">
+  <div class="inner">
+    <div class="con-wrap">
+      <p class="con-pre">Riga, Latvia · open to remote</p>
+      <h2 class="con-h">Let's talk.</h2>
+<div class="con-btns">
+        <a class="cbtn" href="https://www.linkedin.com/in/evita-katrīna-millere/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="cbtn" href="mailto:evitakatrina@gmail.com">evitakatrina@gmail.com</a>
+        <a class="cbtn" href="tel:+37127005962">+371 270 05962</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="overlay" id="overlay" onclick="bgClose(event)">
+  <div class="ov-inner">
+    <button class="ov-x" onclick="closeOv()">✕</button>
+    <div class="ov-header">
+      <div>
+        <div class="ov-company" id="ov-company"></div>
+        <div class="ov-role"    id="ov-role"></div>
+      </div>
+      <div class="ov-date" id="ov-date"></div>
+    </div>
+    <p class="ov-desc" id="ov-desc"></p>
+    <ul class="ov-hl-list" id="ov-hl"></ul>
+    <div class="ov-tl">tools used</div>
+    <div class="ov-tags" id="ov-tags"></div>
+  </div>
+</div>
+
+<!-- UI chrome -->
+<nav id="dots"></nav>
+<div id="counter">1 / 6</div>
+<div id="fmark">© 2026 Evita Katrina Millere</div>
+
+<script>
+/* ── DATA ───────────────────────────────────────── */
+const D = {
+  monetizr: {
+    company:'Monetizr', role:'GTM Engineer', date:'Mar 2026 – present',
+    desc:'Mobile gaming adtech. Owned the full GTM stack end-to-end — built and ran the automated outreach engine, lead capture infrastructure, and real-time analytics.',
+    hl:[
+      'Built automated outreach engine with AI-generated copy, multi-step sequences across 3 audience personas, and signal-based lead enrollment',
+      'Built a large resource lead-magnet database for qualified inbound capture',
+      '266 unique visitors (+25%) and 955 page views (+61%) in 30 days across running campaigns'
+    ],
+    tools:['Claude','Lemlist','Attio','Notion','FullStory','Index Exchange','Kayzen','Cursor','Vercel','Supabase']
+  },
+  animas: {
+    company:'Animas', role:'AI Product Owner', date:'Mar 2026 – present',
+    desc:'Real estate analysis platform. Own end-to-end AI product development — translating client requirements into AI-enabled features and automated workflows.',
+    hl:[
+      'Direct client communication, requirements gathering, and project coordination',
+      'Running AI and automation workshops for Latvian business teams',
+      'Building and shipping working platforms — product, backend, and integrations'
+    ],
+    tools:['Claude','ChatGPT','n8n','Next.js','React','TypeScript','Supabase','Vercel','Figma','Cursor','Lovable','Linear','Notion']
+  },
+  badideas: {
+    company:'BADideas.fund', role:'Community & Marketing', date:'Sep 2025 – Feb 2026',
+    desc:'Startup fund supporting early-stage founders. Worked directly with founders, partners, and external stakeholders across portfolio companies.',
+    hl:[
+      'Led execution of fundraising school and demo day, coordinating multiple stakeholders',
+      'GTM discovery, automation and AI tools to streamline reporting, communication, and workflows'
+    ],
+    tools:['Notion','Airtable','Claude','Canva','n8n']
+  },
+  jurmala: {
+    company:'Jūrmala City Administration', role:'Project Manager', date:'2025 – Feb 2026',
+    desc:'Coordinated development of a city-wide Sustainable Urban Mobility Plan across multiple municipal departments.',
+    hl:[
+      'Designed and deployed a 16-agent AI system for gap benchmarking and automated DOCX report generation',
+      'Consolidated multi-source transport data into decision-ready insights and reports',
+      'Managed timelines, stakeholder inputs, and cross-functional working groups'
+    ],
+    tools:['Claude','Power BI','DOCX generation','data analysis','data organisation','Excel','stakeholder management']
+  },
+  airformatic: {
+    company:'Airformatic', role:'Co-founder', date:'Feb – Jul 2025',
+    desc:'Early-stage startup. Managed a small cross-functional team across strategy, research, and execution.',
+    hl:[
+      'Led business strategy, customer research, and early go-to-market thinking',
+      'Coordinated team across design, product, and outreach'
+    ],
+    tools:['Notion','Figma','Miro']
+  },
+  tapilio: {
+    company:'Tapilio', role:'Co-founder', date:'Feb – Jun 2025',
+    desc:'Early-stage startup. Conducted user research to inform product direction.',
+    hl:[
+      'Ran structured user interviews to identify workflow inefficiencies',
+      'Supported early product decisions with qualitative insights'
+    ],
+    tools:['Notion','Figma','Miro']
+  },
+  workshop: {
+    company:'Workshop', role:'AI as a System: Plan, Automate & Ship Faster', date:'2026',
+    desc:'Designed and delivered for non-technical audiences. Full slide deck, speaker notes, and participant resource pack.',
+    hl:[
+      'Covered practical AI workflow design — from prompt engineering to multi-step automation',
+      'Real examples from GTM and operations contexts',
+      'Delivered live to Latvian business audiences'
+    ],
+    tools:['Claude','Canva','Notion','n8n (live demos)']
+  },
+  reddit: {
+    company:'Personal project', role:'Reddit Signal + Slack Pipeline', date:'2025',
+    desc:'Keyword monitoring system for passive lead discovery. Uses f5bot to watch targeted subreddits for high-intent posts.',
+    hl:[
+      'Matching threads arrive via email — Claude scores and filters them automatically',
+      'Only high-signal opportunities reach Slack — zero noise in practice',
+      'Runs passively in the background with no manual input'
+    ],
+    tools:['f5bot','email forwarding','Claude','Slack','Cursor']
+  },
+  sump: {
+    company:'Jūrmala City', role:'Jūrmala SUMP — 16-Agent System', date:'2025–2026',
+    desc:'Multi-agent AI system built for municipal mobility planning. 16 agents coordinating benchmarking, analysis, and automated document generation.',
+    hl:[
+      'Gap benchmarking against the Liepāja mobility plan',
+      'Automated DOCX report generation covering all SUMP sections',
+      'Reduced a months-long manual process to days'
+    ],
+    tools:['Claude','DOCX generation','Power BI','data analysis','data organisation','Cursor']
+  },
+  attio: {
+    company:'Personal project', role:'Attio CRM Updates via Slack Audio', date:'2026',
+    desc:'Voice-to-CRM workflow built entirely in n8n. Send a Slack audio message describing a contact update — it gets transcribed, parsed, and synced to Attio automatically. No manual data entry.',
+    hl:[
+      'Record a voice note in Slack describing the update (e.g. "Mark Evita as qualified, add note from call")',
+      'n8n transcribes the audio, extracts the intent, and updates the correct Attio record',
+      'Removes the friction of CRM hygiene during fast-moving outreach cycles'
+    ],
+    tools:['n8n','Slack','Attio','Claude','Whisper (transcription)']
+  },
+  signals: {
+    company:'Personal project', role:'Signal-to-Outreach Pipeline', date:'2026',
+    desc:'End-to-end GTM automation built in n8n. Monitors RSS feeds, news sources, and Trigify LinkedIn webhooks for buying signals — scores them, routes only the high-priority ones to Slack for approval, then kicks off full contact research and outreach prep automatically.',
+    hl:[
+      'Ingests signals from RSS feeds, news aggregators, and Trigify LinkedIn post webhooks',
+      'Claude scores and filters — only relevant, high-intent signals reach Slack',
+      'On approval: Apollo searches for the contact, cross-platform profile check runs, outreach message is drafted and ready to send'
+    ],
+    tools:['n8n','Trigify','RSS feeds','Apollo','Slack','Claude','Cursor']
+  }
+};
+
+/* ── OVERLAY ────────────────────────────────────── */
+function openOv(id) {
+  const d = D[id];
+  document.getElementById('ov-company').textContent = d.company;
+  document.getElementById('ov-role').textContent    = d.role;
+  document.getElementById('ov-date').textContent    = d.date;
+  document.getElementById('ov-desc').textContent    = d.desc;
+  document.getElementById('ov-hl').innerHTML        = d.hl.map(h=>`<li>${h}</li>`).join('');
+  document.getElementById('ov-tags').innerHTML      = d.tools.map(t=>`<span class="ov-tag">${t}</span>`).join('');
+  document.getElementById('overlay').classList.add('open');
+}
+function closeOv() { document.getElementById('overlay').classList.remove('open'); }
+function bgClose(e) { if (e.target===document.getElementById('overlay')) closeOv(); }
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeOv(); });
+
+/* ── PANEL SYSTEM ───────────────────────────────── */
+const panels = Array.from(document.querySelectorAll('.panel'));
+const TOTAL  = panels.length;
+let current  = 0, locked = false;
+
+const dotsEl = document.getElementById('dots');
+panels.forEach((_,i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function updateUI(idx) {
+  document.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('on', i===idx));
+  document.getElementById('counter').textContent = `${idx+1} / ${TOTAL}`;
+}
+
+function goTo(idx) {
+  if (locked || idx===current || idx<0 || idx>=TOTAL) return;
+  if (document.getElementById('overlay').classList.contains('open')) return;
+  locked = true;
+
+  const dir  = idx > current ? 1 : -1;
+  const from = panels[current];
+  const to   = panels[idx];
+
+  to.style.transition = 'none';
+  to.style.transform  = `translateX(${dir*100}%)`;
+  to.classList.add('active');
+  void to.getBoundingClientRect();
+
+  const T = '780ms', E = 'cubic-bezier(0.76,0,0.24,1)';
+  from.style.transition = `transform ${T} ${E}`;
+  to.style.transition   = `transform ${T} ${E}`;
+  from.style.transform  = `translateX(${-dir*100}%)`;
+  to.style.transform    = 'translateX(0%)';
+
+  updateUI(idx);
+
+  setTimeout(() => {
+    from.classList.remove('active');
+    from.style.transition = 'none';
+    from.style.transform  = '';
+    to.style.transition   = 'none';
+    current = idx;
+    locked  = false;
+  }, 800);
+}
+
+let lastNav = 0;
+window.addEventListener('wheel', e => {
+  e.preventDefault();
+  if (Math.abs(e.deltaY) < 10) return;        // ignore tiny momentum ticks
+  const now = Date.now();
+  if (now - lastNav < 1100) return;            // hard cooldown — one slide per 1.1s
+  lastNav = now;
+  goTo(current + (e.deltaY > 0 ? 1 : -1));
+}, { passive: false });
+
+let tx=0, ty=0;
+window.addEventListener('touchstart', e => {
+  tx = e.touches[0].clientX;
+  ty = e.touches[0].clientY;
+});
+window.addEventListener('touchend', e => {
+  const dx = Math.abs(e.changedTouches[0].clientX - tx);
+  const dy = e.changedTouches[0].clientY - ty;
+  // Only fire on clearly vertical swipes (avoids conflict with horizontal timeline scroll)
+  if (Math.abs(dy) > 60 && Math.abs(dy) > dx * 1.5) {
+    goTo(current + (dy < 0 ? 1 : -1));
+  }
+});
+window.addEventListener('keydown', e => {
+  if(['ArrowDown','ArrowRight'].includes(e.key)) goTo(current+1);
+  if(['ArrowUp','ArrowLeft'].includes(e.key))    goTo(current-1);
+});
+
+/* ── CURSOR ─────────────────────────────────────── */
+const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
+let mx=window.innerWidth/2, my=window.innerHeight/2, rx=mx, ry=my;
+
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+(function anim() {
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(anim);
+})();
+document.querySelectorAll('a,button,.proj-card,.tl-item,.dot,.h-scroll,.cbtn').forEach(el => {
+  el.addEventListener('mouseenter', ()=>{ dot.classList.add('hov'); ring.classList.add('hov'); });
+  el.addEventListener('mouseleave', ()=>{ dot.classList.remove('hov'); ring.classList.remove('hov'); });
+});
+</script>
+</body>
+</html>
