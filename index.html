@@ -403,6 +403,7 @@
       #fmark { left: 24px; }
       #dots { right: 14px; }
       #counter { right: 18px; }
+      .plabel { margin-bottom: 28px; }
 
       /* hero */
       .h-roles { font-size: 9px; letter-spacing: .14em; }
@@ -411,44 +412,42 @@
       .h-given { font-size: 28px; }
       .h-family { font-size: 14px; }
 
-      /* ── experience: vertical timeline ── */
-      #p2 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-      #p2 .inner { padding: 56px 24px 88px; width: 100%; max-width: none; }
-
+      /* ── experience: vertical timeline, latest first ── */
+      #p2 .inner { width: 100%; max-width: none; }
       .htl-wrap { overflow-x: visible; }
       .htl {
-        display: flex; flex-direction: column;
+        display: flex; flex-direction: column-reverse;
         min-width: unset; padding-top: 0; gap: 0;
       }
       .htl::before {
         top: 5px; left: 5px; right: auto;
-        width: 1px; height: calc(100% - 28px);
+        width: 1px; height: calc(100% - 16px);
       }
       .htl-item {
         display: grid;
         grid-template-columns: 12px 1fr;
-        column-gap: 18px;
+        column-gap: 14px;
         text-align: left; align-items: start;
-        padding: 0 0 28px 0;
+        padding: 0 0 16px 0;
       }
       .htl-year { display: none; }
-      .htl-dot  { grid-column: 1; grid-row: 1; margin: 3px 0 0; }
-      .htl-company { grid-column: 2; grid-row: 1; font-size: 9px; }
-      .htl-role    { grid-column: 2; grid-row: 2; font-size: 15px; text-align: left; }
-      .htl-date    { grid-column: 2; grid-row: 3; font-size: 10px; text-align: left; }
-      .htl-hint    { grid-column: 2; grid-row: 4; display: block; text-align: left; margin-top: 4px; }
+      .htl-dot     { grid-column: 1; grid-row: 1; width: 8px; height: 8px; margin: 3px 0 0; }
+      .htl-company { grid-column: 2; grid-row: 1; font-size: 8px; }
+      .htl-role    { grid-column: 2; grid-row: 2; font-size: 13px; text-align: left; }
+      .htl-date    { grid-column: 2; grid-row: 3; font-size: 9px; text-align: left; margin-top: 1px; }
+      .htl-hint    { display: none; }
 
-      /* ── projects: scrollable ── */
-      #p3 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-      #p3 .inner { padding-top: 56px; padding-bottom: 88px; }
+      /* ── projects: compact 2-col, no scroll ── */
       #p3 .proj-grid { grid-template-columns: 1fr 1fr; }
-      .proj-card { padding: 20px 16px; min-height: 140px; }
-      .proj-title { font-size: 15px; }
+      .proj-card { padding: 14px 12px; min-height: 100px; gap: 6px; }
+      .proj-title { font-size: 13px; }
+      .proj-tag { font-size: 9px; padding: 2px 6px; }
+      .proj-hint { display: none; }
 
-      /* ── skills: scrollable ── */
-      #p4 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-      #p4 .inner { padding-top: 56px; padding-bottom: 88px; }
-      #p4 .sg-grid { grid-template-columns: 1fr; gap: 22px; }
+      /* ── skills: 2-col groups, no scroll ── */
+      #p4 .sg-grid { grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+      .sg-label { font-size: 8px; margin-bottom: 6px; }
+      .sg-tag { font-size: 10px; padding: 3px 8px; }
 
       /* education */
       .edu-row { grid-template-columns: 1fr; gap: 14px; }
@@ -471,12 +470,13 @@
       .h-given { font-size: 24px; }
 
       #p3 .proj-grid { grid-template-columns: 1fr; }
+      .proj-card { min-height: 80px; }
 
       .con-btns { flex-direction: column; }
       .cbtn { text-align: center; }
       .con-h { font-size: 30px; }
 
-      .overlay { padding: 28px 20px; align-items: flex-start; padding-top: 60px; }
+      .overlay { padding: 28px 20px; align-items: flex-start; padding-top: 60px; overflow-y: auto; }
       .ov-inner { max-width: 100%; }
     }
   </style>
@@ -956,14 +956,6 @@ window.addEventListener('touchend', e => {
   const dx = Math.abs(e.changedTouches[0].clientX - tx);
   const dy = e.changedTouches[0].clientY - ty;
   if (Math.abs(dy) > 60 && Math.abs(dy) > dx * 1.5) {
-    const panel = panels[current];
-    const canScroll = panel.scrollHeight > panel.clientHeight + 2;
-    if (canScroll) {
-      const atTop    = panel.scrollTop < 2;
-      const atBottom = panel.scrollTop >= panel.scrollHeight - panel.clientHeight - 2;
-      if (dy < 0 && !atBottom) return; // still content below — scroll, don't navigate
-      if (dy > 0 && !atTop)    return; // still content above — scroll, don't navigate
-    }
     goTo(current + (dy < 0 ? 1 : -1));
   }
 }, { passive: true });
