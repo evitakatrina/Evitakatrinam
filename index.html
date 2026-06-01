@@ -396,13 +396,10 @@
     .ov-tag    { font-size:12px; color:rgba(255,255,255,.52); border:1px solid var(--d15); padding:5px 13px; }
 
     /* ── RESPONSIVE ────────────────────────────────────── */
-    /* ── TABLET ──────────────────────────────────────── */
     @media (max-width: 768px) {
-      /* hide desktop cursor */
       #cur-dot, #cur-ring { display: none; }
 
       .inner, .h-wrap { padding: 0 24px; }
-      #p2 .inner { padding: 0 24px; }
       #fmark { left: 24px; }
       #dots { right: 14px; }
       #counter { right: 18px; }
@@ -414,28 +411,53 @@
       .h-given { font-size: 28px; }
       .h-family { font-size: 14px; }
 
-      /* experience timeline — keep horizontal but allow scroll */
-      .htl-role { font-size: 12px; }
-      .htl-date { font-size: 9px; }
-      .htl-company { font-size: 8px; }
-      .htl-hint { display: none; }
+      /* ── experience: vertical timeline ── */
+      #p2 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+      #p2 .inner { padding: 56px 24px 88px; width: 100%; max-width: none; }
 
-      /* projects */
+      .htl-wrap { overflow-x: visible; }
+      .htl {
+        display: flex; flex-direction: column;
+        min-width: unset; padding-top: 0; gap: 0;
+      }
+      .htl::before {
+        top: 5px; left: 5px; right: auto;
+        width: 1px; height: calc(100% - 28px);
+      }
+      .htl-item {
+        display: grid;
+        grid-template-columns: 12px 1fr;
+        column-gap: 18px;
+        text-align: left; align-items: start;
+        padding: 0 0 28px 0;
+      }
+      .htl-year { display: none; }
+      .htl-dot  { grid-column: 1; grid-row: 1; margin: 3px 0 0; }
+      .htl-company { grid-column: 2; grid-row: 1; font-size: 9px; }
+      .htl-role    { grid-column: 2; grid-row: 2; font-size: 15px; text-align: left; }
+      .htl-date    { grid-column: 2; grid-row: 3; font-size: 10px; text-align: left; }
+      .htl-hint    { grid-column: 2; grid-row: 4; display: block; text-align: left; margin-top: 4px; }
+
+      /* ── projects: scrollable ── */
+      #p3 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+      #p3 .inner { padding-top: 56px; padding-bottom: 88px; }
       #p3 .proj-grid { grid-template-columns: 1fr 1fr; }
       .proj-card { padding: 20px 16px; min-height: 140px; }
       .proj-title { font-size: 15px; }
 
-      /* skills */
+      /* ── skills: scrollable ── */
+      #p4 { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+      #p4 .inner { padding-top: 56px; padding-bottom: 88px; }
       #p4 .sg-grid { grid-template-columns: 1fr; gap: 22px; }
 
       /* education */
       .edu-row { grid-template-columns: 1fr; gap: 14px; }
 
-      /* about text */
+      /* about */
       #p1 .about-body { font-size: 17px; margin-bottom: 40px; }
 
       /* overlay */
-      .overlay { padding: 36px 24px; }
+      .overlay { padding: 36px 24px; overflow-y: auto; }
       .ov-role { font-size: 24px; }
 
       /* connect */
@@ -444,21 +466,16 @@
 
     /* ── MOBILE ──────────────────────────────────────── */
     @media (max-width: 480px) {
-      /* hero: stack photo above name on very small screens */
       .h-name { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 0; }
       .h-photo { width: 68px; height: 68px; }
       .h-given { font-size: 24px; }
-      .h-rules-area { display: none; } /* hide rules if too tight */
 
-      /* projects: single column */
       #p3 .proj-grid { grid-template-columns: 1fr; }
 
-      /* connect */
       .con-btns { flex-direction: column; }
       .cbtn { text-align: center; }
       .con-h { font-size: 30px; }
 
-      /* overlay */
       .overlay { padding: 28px 20px; align-items: flex-start; padding-top: 60px; }
       .ov-inner { max-width: 100%; }
     }
@@ -934,15 +951,22 @@ let tx=0, ty=0;
 window.addEventListener('touchstart', e => {
   tx = e.touches[0].clientX;
   ty = e.touches[0].clientY;
-});
+}, { passive: true });
 window.addEventListener('touchend', e => {
   const dx = Math.abs(e.changedTouches[0].clientX - tx);
   const dy = e.changedTouches[0].clientY - ty;
-  // Only fire on clearly vertical swipes (avoids conflict with horizontal timeline scroll)
   if (Math.abs(dy) > 60 && Math.abs(dy) > dx * 1.5) {
+    const panel = panels[current];
+    const canScroll = panel.scrollHeight > panel.clientHeight + 2;
+    if (canScroll) {
+      const atTop    = panel.scrollTop < 2;
+      const atBottom = panel.scrollTop >= panel.scrollHeight - panel.clientHeight - 2;
+      if (dy < 0 && !atBottom) return; // still content below — scroll, don't navigate
+      if (dy > 0 && !atTop)    return; // still content above — scroll, don't navigate
+    }
     goTo(current + (dy < 0 ? 1 : -1));
   }
-});
+}, { passive: true });
 window.addEventListener('keydown', e => {
   if(['ArrowDown','ArrowRight'].includes(e.key)) goTo(current+1);
   if(['ArrowUp','ArrowLeft'].includes(e.key))    goTo(current-1);
