@@ -28,8 +28,9 @@
   /* GitHub contribution graph: live data for evitakatrina, rendered as a 53×7 grid */
   const ghSec = document.getElementById('gh-sec');
   if (ghSec) {
-    fetch('https://github-contributions-api.jogruber.de/v4/evitakatrina?y=last')
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+    // 1) our own endpoint (GitHub GraphQL, includes private contributions); 2) public-profile mirror as fallback
+    fetch('/api/contributions').then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .catch(() => fetch('https://github-contributions-api.jogruber.de/v4/evitakatrina?y=last').then(r => r.ok ? r.json() : Promise.reject(r.status)))
       .then(d => {
         const days = d.contributions;
         if (!days || !days.length) return;
