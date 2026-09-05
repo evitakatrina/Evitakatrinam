@@ -1,0 +1,127 @@
+@font-face{font-family:"Inter Variable";src:url("/fonts/InterVariable.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter Variable";src:url("/fonts/InterVariable-Italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+:root{
+  --bg:#FAFAFA; --ink:#171717; --ink-2:#737373; --mute:#A3A3A3; --faint:#D4D4D4;
+  --serif: Georgia, ui-serif, Cambria, "Times New Roman", Times, serif;
+  --sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--ink);
+  font:400 16px/1.5 var(--sans);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+main{width:100%; max-width:40rem; margin:0 auto; padding:80px 24px 48px}
+@media (max-width:640px){ main{padding:48px 24px 40px} }
+
+/* ── header ── */
+.avatar-wrap{width:64px;height:64px;margin:0 0 10px}
+.avatar{width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+h1{font:500 20px/28px var(--sans); letter-spacing:-.01em; padding-bottom:8px}
+.tag{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute)}
+
+/* ── sections ── */
+.sec{padding-top:36px}
+.sec-h{display:flex; align-items:center; justify-content:space-between; padding-bottom:4px; font-weight:400; font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute)}
+.list{display:flex; flex-direction:column; padding-bottom:4px}
+
+.item{display:flex; flex-direction:column; gap:4px; padding:12px 0}
+.item .t{display:flex; align-items:center; gap:8px; font-size:16px; line-height:24px; color:var(--ink); transition:color .15s ease-in-out}
+.item .t .ic{width:12px;height:12px;flex:none}
+.item .t .ic svg{width:12px;height:12px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.item .t .when{margin-left:auto; font-size:13px; letter-spacing:.01em; color:var(--mute); white-space:nowrap; font-variant-numeric:tabular-nums}
+.item .d{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute)}
+a.item:hover .t{color:var(--ink-2)}
+
+/* arrow that slides in on hover (reference: .arrow-reveal) */
+.arr{display:inline-flex; align-items:center}
+.arr::after{
+  content:""; display:inline-block; width:0; height:10px; margin-left:0; opacity:0; translate:0 0;
+  background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='m12 5 7 7-7 7'/%3E%3C/svg%3E") center/contain no-repeat;
+  transition:width .15s ease-in-out, margin-left .15s ease-in-out, opacity .15s ease-in-out, translate .15s ease-in-out;
+}
+.arr.ext::after{
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 7h10v10'/%3E%3Cpath d='M7 17 17 7'/%3E%3C/svg%3E");
+          mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 7h10v10'/%3E%3Cpath d='M7 17 17 7'/%3E%3C/svg%3E");
+}
+.arr:hover::after, a:hover > .t.arr::after, a:focus-visible .arr::after{width:10px; margin-left:4px; opacity:1; translate:2px 0}
+.sec-h a{color:var(--mute); transition:color .2s ease-in-out}
+.sec-h a:hover{color:var(--ink-2)}
+
+/* ── project folders (macOS look, drawn in SVG; papers slide out on hover) ── */
+.folders{display:grid; grid-template-columns:repeat(4,1fr); column-gap:32px; row-gap:24px; padding:16px 0 8px}
+@media (max-width:640px){ .folders{grid-template-columns:repeat(3,1fr)} }
+.fd{display:flex; flex-direction:column; align-items:center; gap:2px; width:max-content; min-width:84px}
+.fd .folder{width:72px; height:60px; display:block; overflow:visible; filter:drop-shadow(0 3px 4px rgba(20,90,150,.18)); transition:filter .3s}
+.fd:hover .folder{filter:drop-shadow(0 8px 10px rgba(20,90,150,.22))}
+.fd .paper, .fd .front, .fd .back{transform-box:fill-box; transform-origin:50% 100%; transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.fd .paper{transform:translateY(4px)}
+.fd .p1{transition-delay:.02s} .fd .p2{transition-delay:.06s} .fd .p3{transition-delay:.1s}
+.fd:hover .p1, .fd.open .p1{transform:translate(0,-16px) rotate(-3deg)}
+.fd:hover .p2, .fd.open .p2{transform:translate(3px,-11px) rotate(4deg)}
+.fd:hover .p3, .fd.open .p3{transform:translate(-4px,-7px) rotate(-7deg)}
+.fd:hover .front, .fd.open .front{transform:scaleY(.94) translateY(2px)}
+.fd:hover .back, .fd.open .back{transform:translateY(1px)}
+.fd .ft{font-size:14px; line-height:20px; color:var(--ink); padding:1px 7px; border-radius:5px; transition:background .15s, color .15s}
+.fd:hover .ft, .fd.open .ft{background:#2E96F0; color:#fff}
+
+/* ── books (3D, as on the reference) ── */
+.books{display:grid; grid-template-columns:repeat(3,1fr); column-gap:32px; row-gap:32px; padding:20px 0 8px}
+@media (min-width:768px){ .books{grid-template-columns:repeat(4,1fr)} }
+.bk{display:flex; flex-direction:column; gap:20px}
+.book-scene{position:relative; width:var(--bw,50px); height:var(--bh,75px); perspective:600px; perspective-origin:50% 40%; transform:translateX(3px); user-select:none}
+.book{position:relative; width:100%; height:100%; transform-style:preserve-3d; transform:rotateY(-14deg); transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.bk:hover .book{transform:rotateY(-26deg) translateY(-2px)}
+.book-front{position:absolute; inset:0; border-radius:0 2px 2px 0; overflow:hidden; transform:translateZ(10px)}
+.book-front img{width:100%; height:100%; object-fit:cover; pointer-events:none}
+.book-front::after{content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,.12), transparent 10%, hsla(0,0%,100%,.12) 16%, transparent 28%)}
+.book-spine{position:absolute; top:0; left:calc(50% - 10px); width:20px; height:100%; transform:rotateY(-90deg) translateZ(calc(var(--bw,50px) / 2)); background-size:900% 100%; background-position:0; filter:brightness(.6) saturate(1.15)}
+.book-pages{position:absolute; top:1px; left:calc(50% - 9px); width:18px; height:calc(100% - 2px); transform:rotateY(90deg) translateZ(calc(var(--bw,50px) / 2)); background:linear-gradient(90deg,#ddd6c3,#f3eee0 40%,#e6dfcc); box-shadow:inset 1px 0 2px rgba(0,0,0,.15)}
+.book-ground{position:absolute; left:-6px; right:-10px; bottom:-7px; height:10px; background:radial-gradient(ellipse 50% 100% at 40% 50%, rgba(0,0,0,.18), rgba(0,0,0,.06) 60%, transparent 80%); filter:blur(4px)}
+.bk .bt{font-size:14px; line-height:20px; pointer-events:none; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+.bk .ba{font-size:12px; line-height:16px; letter-spacing:.01em; color:var(--mute); margin-top:4px; margin-bottom:4px; pointer-events:none}
+.bk .meta{display:flex; flex-direction:column}
+
+/* ── buy me a coffee ── */
+.coffee{display:flex; align-items:center; gap:14px; padding:12px 0 8px}
+.coffee .cup{width:44px;height:40px;flex:none;image-rendering:pixelated;image-rendering:crisp-edges;user-select:none;-webkit-user-drag:none;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.coffee:hover .cup{transform:translateY(-2px) rotate(-4deg)}
+.coffee .ct{font-size:16px; line-height:24px; color:var(--ink); transition:color .15s ease-in-out}
+.coffee:hover .ct{color:var(--ink-2)}
+.coffee .cd{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute)}
+
+/* ── footer ── */
+.links{display:flex; gap:16px; letter-spacing:.01em; padding-top:44px}
+@media (min-width:768px){ .links{gap:24px} }
+.links a{font-size:14px; line-height:20px; color:var(--mute); transition:color .15s ease-in-out}
+.links a:hover{color:var(--ink-2)}
+main{padding-bottom:96px}
+.foot{padding-top:64px; font-size:12px; line-height:16px; letter-spacing:.01em; color:var(--faint)}
+.quote{font:500 12px/16px var(--serif); letter-spacing:.01em; color:rgba(212,212,212,.7); white-space:pre-wrap}
+.quote .cur{color:var(--faint)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+
+/* ── sub pages ── */
+.back{display:inline-flex; font-size:14px; color:var(--mute); margin-bottom:32px; transition:color .15s}
+.back:hover{color:var(--ink-2)}
+h2.page{font:500 20px/28px var(--sans); letter-spacing:-.01em; padding-bottom:8px}
+.lede{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute); padding-bottom:24px}
+.tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:6px}
+.tags span, .chips span{font-size:12px; line-height:16px; color:var(--ink-2); background:#F0F0F0; padding:3px 8px; border-radius:999px}
+.group{padding-top:20px}
+.group h3{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute); font-weight:400; padding-bottom:10px}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.chips span{font-size:13px; padding:4px 10px}
+
+/* ── entrance: blur-in, as on the reference. JS-driven so content is never stuck hidden ── */
+html.js .up{opacity:0; filter:blur(4px); transform:translateY(12px) translateZ(0)}
+html.js.in .up{opacity:1; filter:blur(0); transform:none; transition:opacity .6s cubic-bezier(.2,.7,.2,1), filter .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); transition-delay:calc(var(--i,0) * 70ms + 40ms)}
+html.static .up{transition:none !important}
+@media (prefers-reduced-motion:reduce){ html.js .up{opacity:1; filter:none; transform:none; transition:none} .book{transition:none} }
