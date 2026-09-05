@@ -32,31 +32,38 @@
     fetch('/api/contributions').then(r => r.ok ? r.json() : Promise.reject(r.status))
       .catch(() => fetch('https://github-contributions-api.jogruber.de/v4/evitakatrina?y=last').then(r => r.ok ? r.json() : Promise.reject(r.status)))
       .then(d => {
-        const days = d.contributions;
-        if (!days || !days.length) return;
-        // pad so the first column starts on a Sunday, like GitHub
-        const first = new Date(days[0].date + 'T00:00:00');
-        const pad = first.getDay();
-        const grid = document.getElementById('gh-grid'), months = document.getElementById('gh-months');
-        let html = '';
-        for (let i = 0; i < pad; i++) html += '<i style="visibility:hidden"></i>';
-        for (const x of days) html += `<i data-l="${x.level}" title="${x.count} contribution${x.count === 1 ? '' : 's'} on ${x.date}"></i>`;
-        grid.innerHTML = html;
-        // month labels: one per column where the month changes
-        const cols = Math.ceil((pad + days.length) / 7);
+        const all = d.contributions;
+        if (!all || !all.length) return;
+        const gh = ghSec.querySelector('.gh'), grid = document.getElementById('gh-grid'), months = document.getElementById('gh-months');
         const names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        let m = '', last = -1, lastCol = -9;
-        for (let c = 0; c < cols; c++) {
-          const idx = Math.max(0, c * 7 - pad);
-          const mo = new Date(days[Math.min(idx, days.length - 1)].date + 'T00:00:00').getMonth();
-          if (mo !== last && c - lastCol >= 3 && c < cols - 2) { m += `<span>${names[mo]}</span>`; lastCol = c; }
-          else m += '<span></span>';
-          last = mo;
-        }
-        months.innerHTML = m;
+        const draw = () => {
+          // fit as many whole weeks as the column allows (all 53 on desktop, fewer on a phone), newest first
+          const cs = getComputedStyle(gh), cell = parseFloat(cs.getPropertyValue('--cell')), gap = parseFloat(cs.getPropertyValue('--gap'));
+          const fit = Math.max(8, Math.floor((gh.clientWidth + gap) / (cell + gap)));
+          const endPad = 6 - new Date(all[all.length - 1].date + 'T00:00:00').getDay();
+          const maxDays = fit * 7 - endPad;
+          const days = all.slice(-maxDays);
+          const pad = new Date(days[0].date + 'T00:00:00').getDay();
+          let html = '';
+          for (let i = 0; i < pad; i++) html += '<i style="visibility:hidden"></i>';
+          for (const x of days) html += `<i data-l="${x.level}" title="${x.count} contribution${x.count === 1 ? '' : 's'} on ${x.date}"></i>`;
+          grid.innerHTML = html;
+          const cols = Math.ceil((pad + days.length) / 7);
+          let m = '', last = -1, lastCol = -9;
+          for (let c = 0; c < cols; c++) {
+            const idx = Math.max(0, c * 7 - pad);
+            const mo = new Date(days[Math.min(idx, days.length - 1)].date + 'T00:00:00').getMonth();
+            if (mo !== last && c - lastCol >= 3 && c < cols - 2) { m += `<span>${names[mo]}</span>`; lastCol = c; }
+            else m += '<span></span>';
+            last = mo;
+          }
+          months.innerHTML = m;
+        };
+        ghSec.hidden = false;   // must be visible before measuring
+        draw();
+        let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 120); });
         const total = d.total && (d.total.lastYear ?? Object.values(d.total)[0]);
         document.getElementById('gh-total').textContent = `${total} contribution${total === 1 ? '' : 's'} in the last year.`;
-        ghSec.hidden = false;
         requestAnimationFrame(() => ghSec.querySelectorAll('.up').forEach(e => e.style.transitionDelay = '0s'));
       })
       .catch(() => { /* API unavailable: section stays hidden */ });
