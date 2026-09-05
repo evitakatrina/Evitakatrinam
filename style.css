@@ -72,6 +72,18 @@ a.item:hover .t{color:var(--ink-2)}
 .fd .ft{font-size:14px; line-height:20px; color:var(--ink); padding:1px 7px; border-radius:5px; transition:background .15s, color .15s}
 .fd:hover .ft, .fd.open .ft{background:#2E96F0; color:#fff}
 
+/* ── GitHub contribution graph (fetched live, drawn as a grid) ── */
+.gh{display:block; padding:16px 0 4px; --cell:9px; --gap:3px}
+.gh-months{display:grid; grid-auto-flow:column; grid-auto-columns:calc(var(--cell) + var(--gap)); font-size:11px; line-height:14px; color:var(--mute); margin-bottom:4px; height:14px; overflow:hidden}
+.gh-months span{white-space:nowrap}
+.gh-grid{display:grid; grid-auto-flow:column; grid-template-rows:repeat(7, var(--cell)); grid-auto-columns:var(--cell); gap:var(--gap); width:max-content}
+.gh-grid i{display:block; width:var(--cell); height:var(--cell); border-radius:2px; background:#EBEBEB; transition:transform .15s}
+.gh-grid i:hover{transform:scale(1.3)}
+.gh-grid i[data-l="1"]{background:#9BE9A8} .gh-grid i[data-l="2"]{background:#40C463} .gh-grid i[data-l="3"]{background:#30A14E} .gh-grid i[data-l="4"]{background:#216E39}
+.gh .d{margin-top:10px; font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute)}
+.gh-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+@media (max-width:700px){ .gh{--cell:8px; --gap:2px} }
+
 /* ── books (3D, as on the reference) ── */
 .books{display:grid; grid-template-columns:repeat(3,1fr); column-gap:32px; row-gap:32px; padding:20px 0 8px}
 @media (min-width:768px){ .books{grid-template-columns:repeat(4,1fr)} }
