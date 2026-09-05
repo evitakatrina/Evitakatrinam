@@ -74,7 +74,7 @@ a.item:hover .t{color:var(--ink-2)}
 
 /* ── GitHub contribution graph (fetched live, drawn as a grid) ── */
 .gh{display:block; padding:16px 0 4px; --cell:9px; --gap:3px}
-.gh-months{display:grid; grid-auto-flow:column; grid-auto-columns:calc(var(--cell) + var(--gap)); font-size:11px; line-height:14px; color:var(--mute); margin-bottom:4px; height:14px; overflow:hidden}
+.gh-months{display:grid; grid-auto-flow:column; grid-auto-columns:calc(var(--cell) + var(--gap)); font-size:11px; line-height:14px; color:var(--mute); margin-bottom:4px; height:14px; overflow:visible}
 .gh-months span{white-space:nowrap}
 .gh-grid{display:grid; grid-auto-flow:column; grid-template-rows:repeat(7, var(--cell)); grid-auto-columns:var(--cell); gap:var(--gap); width:max-content}
 .gh-grid i{display:block; width:var(--cell); height:var(--cell); border-radius:2px; background:#EBEBEB; transition:transform .15s}
