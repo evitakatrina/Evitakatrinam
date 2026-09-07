@@ -6,7 +6,9 @@ posthog.init('phc_xGy99rzKgXBch8rBgg5qnmG8S8ufyvgFzW5U55xhBGkL', {
   api_host: '/ingest',
   ui_host: 'https://eu.posthog.com',
   persistence: 'memory',
-  capture_pageview: true,
+  // The library's own load-time pageview did not fire on this static site (script loads after
+  // DOMContentLoaded), so the page view is sent explicitly below.
+  capture_pageview: false,
   capture_pageleave: true,
   autocapture: true,
   capture_heatmaps: true,
@@ -14,3 +16,4 @@ posthog.init('phc_xGy99rzKgXBch8rBgg5qnmG8S8ufyvgFzW5U55xhBGkL', {
   capture_performance: { web_vitals: true },
   defaults: '2025-05-24',
 });
+posthog.capture('$pageview');
