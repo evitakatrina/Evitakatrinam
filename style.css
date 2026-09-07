@@ -137,29 +137,3 @@ html.js .up{opacity:0; filter:blur(4px); transform:translateY(12px) translateZ(0
 html.js.in .up{opacity:1; filter:blur(0); transform:none; transition:opacity .6s cubic-bezier(.2,.7,.2,1), filter .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); transition-delay:calc(var(--i,0) * 70ms + 40ms)}
 html.static .up{transition:none !important}
 @media (prefers-reduced-motion:reduce){ html.js .up{opacity:1; filter:none; transform:none; transition:none} .book{transition:none} }
-
-/* ── touch devices have no cursor: folder + cup play the hover motion themselves while on screen ── */
-@keyframes fdP1{0%,8%{transform:translateY(4px)} 22%,58%{transform:translate(0,-16px) rotate(-3deg)} 74%,100%{transform:translateY(4px)}}
-@keyframes fdP2{0%,8%{transform:translateY(4px)} 22%,58%{transform:translate(3px,-11px) rotate(4deg)} 74%,100%{transform:translateY(4px)}}
-@keyframes fdP3{0%,8%{transform:translateY(4px)} 22%,58%{transform:translate(-4px,-7px) rotate(-7deg)} 74%,100%{transform:translateY(4px)}}
-@keyframes fdFront{0%,8%{transform:none} 22%,58%{transform:scaleY(.94) translateY(2px)} 74%,100%{transform:none}}
-@keyframes fdBack{0%,8%{transform:none} 22%,58%{transform:translateY(1px)} 74%,100%{transform:none}}
-@keyframes fdShadow{0%,8%{filter:drop-shadow(0 3px 4px rgba(20,90,150,.18))} 22%,58%{filter:drop-shadow(0 8px 10px rgba(20,90,150,.22))} 74%,100%{filter:drop-shadow(0 3px 4px rgba(20,90,150,.18))}}
-@keyframes fdLabel{0%,8%{background:transparent; color:var(--ink)} 22%,58%{background:#2E96F0; color:#fff} 74%,100%{background:transparent; color:var(--ink)}}
-@keyframes cupNudge{0%,12%{transform:none} 30%,58%{transform:translateY(-3px) rotate(-5deg)} 76%,100%{transform:none}}
-
-@media (hover:none){
-  .fd.iv .folder{animation:fdShadow 4.6s cubic-bezier(.2,.8,.2,1) infinite}
-  .fd.iv .p1{animation:fdP1 4.6s cubic-bezier(.2,.8,.2,1) infinite}
-  .fd.iv .p2{animation:fdP2 4.6s cubic-bezier(.2,.8,.2,1) .04s infinite}
-  .fd.iv .p3{animation:fdP3 4.6s cubic-bezier(.2,.8,.2,1) .08s infinite}
-  .fd.iv .front{animation:fdFront 4.6s cubic-bezier(.2,.8,.2,1) infinite}
-  .fd.iv .back{animation:fdBack 4.6s cubic-bezier(.2,.8,.2,1) infinite}
-  .fd.iv .ft{animation:fdLabel 4.6s cubic-bezier(.2,.8,.2,1) infinite}
-  .coffee.iv .cup{animation:cupNudge 4.2s cubic-bezier(.2,.8,.2,1) infinite}
-  /* a real tap still wins over the loop */
-  .fd:active .p1,.fd:active .p2,.fd:active .p3,.fd:active .front,.fd:active .back,.fd:active .ft,.fd:active .folder,.coffee:active .cup{animation:none}
-}
-@media (prefers-reduced-motion:reduce){
-  .fd.iv .folder,.fd.iv .p1,.fd.iv .p2,.fd.iv .p3,.fd.iv .front,.fd.iv .back,.fd.iv .ft,.coffee.iv .cup{animation:none}
-}
