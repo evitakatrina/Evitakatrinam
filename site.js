@@ -25,6 +25,15 @@
     setTimeout(step, 1100);
   });
 
+  /* touch devices have no cursor, so the folder and the cup play their own motion while on screen */
+  if (!reduced && matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      es => es.forEach(e => e.target.classList.toggle('iv', e.isIntersecting)),
+      { threshold: 0.55 }
+    );
+    document.querySelectorAll('.fd, .coffee').forEach(el => io.observe(el));
+  }
+
   /* GitHub contribution graph: live data for evitakatrina, rendered as a 53×7 grid */
   const ghSec = document.getElementById('gh-sec');
   if (ghSec) {
