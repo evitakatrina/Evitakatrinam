@@ -163,3 +163,44 @@ html.static .up{transition:none !important}
 @media (prefers-reduced-motion:reduce){
   .fd.iv .folder,.fd.iv .p1,.fd.iv .p2,.fd.iv .p3,.fd.iv .front,.fd.iv .back,.fd.iv .ft,.coffee.iv .cup{animation:none}
 }
+
+/* ── 404: pixel digits on the contribution-graph grid ── */
+.nf .back{margin-bottom:40px}
+.px404{--cell:16px; --pgap:4px; padding:4px 0 36px; width:max-content; max-width:100%}
+@media (max-width:640px){ .px404{--cell:11px; --pgap:3px} }
+.px-grid{
+  display:grid; gap:var(--pgap);
+  grid-template-columns:repeat(var(--cols,17), var(--cell));
+  grid-template-rows:repeat(var(--rows,7), var(--cell));
+}
+.px-grid i{display:block; width:var(--cell); height:var(--cell); border-radius:2px}
+.px-grid i.off{visibility:hidden}
+.px-grid b{display:block; width:100%; height:100%; border-radius:inherit; background:var(--ink)}
+
+/* assemble: each pixel pops in on a diagonal sweep */
+@keyframes pxIn{from{opacity:0; transform:scale(.15)} to{opacity:1; transform:none}}
+/* idle: a slow wave of Finder-blue crosses the digits, the way the folder highlights */
+@keyframes pxWave{0%,88%,100%{background:var(--ink); transform:none} 94%{background:#43A8EA; transform:scale(1.16)}}
+.px-grid.ready i{animation:pxIn .42s cubic-bezier(.2,.8,.2,1) var(--in,0ms) backwards}
+.px-grid.ready b{animation:pxWave 5.4s linear var(--wave,0ms) infinite}
+
+/* the page is already gone: touch it and the pixels come apart, then settle back */
+.px404 .px-grid i{transition:transform .55s cubic-bezier(.2,.8,.2,1) var(--sd,0ms), opacity .55s ease var(--sd,0ms)}
+.px404:hover .px-grid i{transform:translateY(var(--fy)) rotate(var(--rot)); opacity:.3}
+.px404:active .px-grid i{transform:translateY(calc(var(--fy) * 1.6)) rotate(var(--rot)); opacity:.18}
+
+.nf-home{font-size:14px; line-height:20px; letter-spacing:.01em; color:var(--mute); margin-top:2px; transition:color .15s ease-in-out}
+.nf-home:hover{color:var(--ink-2)}
+.nf .links{padding-top:56px}
+
+@media (hover:none){
+  /* no cursor to break them apart, so they drift on their own */
+  .px-grid.ready i{animation:pxIn .42s cubic-bezier(.2,.8,.2,1) var(--in,0ms) backwards, pxDrift 4.8s cubic-bezier(.4,0,.6,1) var(--sd,0ms) infinite}
+}
+@keyframes pxDrift{0%,100%{transform:none} 50%{transform:translateY(-3px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .px-grid.ready i, .px-grid.ready b{animation:none}
+  .px404:hover .px-grid i, .px404:active .px-grid i{transform:none; opacity:1}
+  .px-grid i{transition:none}
+}
